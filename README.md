@@ -17,14 +17,14 @@ Features
   C++ native code.
 - Three band (low, middle, high) filter bank useful for detecting rhythmic
   accents.
-- Supports Windows (WASAPI), macOS (Core Audio) and Linux (ALSA).
+- Supports Windows (WASAPI), macOS & iOS (Core Audio) and Linux (ALSA).
 
 System Requirements
 -------------------
 
 - Unity 2017.1 or later
 
-At the moment, LASP supports Windows, macOS, Linux & iOS.
+At the moment, LASP supports Windows, macOS, iOS and Linux.
 
 Installation
 ------------
