@@ -1,6 +1,12 @@
-#include "pa_debugprint.h"
 #include "IUnityInterface.h"
+
+#ifdef PA_USE_COREAUDIO
+#include "CoreAudioDriver.h"
+#else
+#include "pa_debugprint.h"
 #include "Driver.h"
+#endif
+
 #include <memory>
 #include <string>
 
@@ -19,7 +25,9 @@ extern "C"
 {
     void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnityInterfaces* unityInterfaces)
     {
+#ifndef PA_USE_COREAUDIO
         PaUtil_SetDebugPrintFunction(PaPrintCallback);
+#endif
     }
 
     void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginUnload()

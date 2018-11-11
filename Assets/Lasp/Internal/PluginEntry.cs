@@ -12,28 +12,34 @@ namespace Lasp
     {
         #region Plugin interface
 
-        [DllImport("Lasp", EntryPoint="LaspCreateDriver")]
+        #if UNITY_IOS
+        const string _libName = "__Internal";
+        #else
+        const string _libName = "Lasp";
+        #endif
+
+        [DllImport(_libName, EntryPoint="LaspCreateDriver")]
         public static extern IntPtr CreateDriver();
 
-        [DllImport("Lasp", EntryPoint="LaspDeleteDriver")]
+        [DllImport(_libName, EntryPoint="LaspDeleteDriver")]
         public static extern void DeleteDriver(IntPtr driver);
 
-        [DllImport("Lasp", EntryPoint="LaspOpenStream")]
+        [DllImport(_libName, EntryPoint="LaspOpenStream")]
         public static extern bool OpenStream(IntPtr driver);
 
-        [DllImport("Lasp", EntryPoint="LaspCloseStream")]
+        [DllImport(_libName, EntryPoint="LaspCloseStream")]
         public static extern void CloseStream(IntPtr driver);
 
-        [DllImport("Lasp", EntryPoint="LaspGetSampleRate")]
+        [DllImport(_libName, EntryPoint="LaspGetSampleRate")]
         public static extern float GetSampleRate(IntPtr driver);
 
-        [DllImport("Lasp", EntryPoint="LaspGetPeakLevel")]
+        [DllImport(_libName, EntryPoint="LaspGetPeakLevel")]
         public static extern float GetPeakLevel(IntPtr driver, FilterType filter, float duration);
 
-        [DllImport("Lasp", EntryPoint="LaspCalculateRMS")]
+        [DllImport(_libName, EntryPoint="LaspCalculateRMS")]
         public static extern float CalculateRMS(IntPtr driver, FilterType filter, float duration);
 
-        [DllImport("Lasp", EntryPoint="LaspRetrieveWaveform")]
+        [DllImport(_libName, EntryPoint="LaspRetrieveWaveform")]
         public static extern int RetrieveWaveform(IntPtr driver, FilterType filter, float[] dest, int length);
 
         #endregion
@@ -42,12 +48,14 @@ namespace Lasp
 
         public static void SetupLogger()
         {
+            #if !UNITY_IOS // FIXME: cant marchal the callback like this on iOS
             var del = (PrintDelegate)Log;
             var ptr = Marshal.GetFunctionPointerForDelegate(del);
             ReplaceLogger(ptr);
+            #endif
         }
 
-        [DllImport("Lasp", EntryPoint="LaspReplaceLogger")]
+        [DllImport(_libName, EntryPoint="LaspReplaceLogger")]
         public static extern void ReplaceLogger(IntPtr logger);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
