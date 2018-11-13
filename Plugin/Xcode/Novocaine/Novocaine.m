@@ -414,8 +414,8 @@ static Novocaine *audioManager = nil;
                                      &size ), 
                "Couldn't get the hardware output stream format");
     
-    _inputFormat.mSampleRate = 48000.0;
-    _outputFormat.mSampleRate = 48000.0;
+    _inputFormat.mSampleRate = 44100.0;
+    _outputFormat.mSampleRate = 44100.0;
     self.samplingRate = _inputFormat.mSampleRate;
     self.numBytesPerSample = _inputFormat.mBitsPerChannel / 8;
     
